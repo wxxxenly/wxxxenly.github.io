@@ -1,0 +1,93 @@
+.bio {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  color: #ccc;
+  line-height: 1.8;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 40px;
+  margin-top: 40px;
+  align-items: start;
+  text-align: left;
+}
+
+.tech-stack-column, .stats-column { text-align: left; }
+
+.tech-stack-title {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tech-stack-title::before { content: "💻"; font-size: 1.8rem; }
+
+.tech-stack-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.tech-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #252525;
+  border-radius: 8px;
+  border-left: 3px solid var(--clr-1);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.tech-badge:hover {
+  transform: translateY(-3px);
+  background: #2a2a2a;
+  border-left-color: var(--clr-2);
+  box-shadow: 0 5px 15px rgba(255, 189, 68, 0.2);
+}
+
+.tech-badge img { width: 24px; height: 24px; object-fit: contain; }
+.tech-badge span { color: #e0e0e0; font-size: 0.9rem; font-weight: 500; white-space: nowrap; }
+
+/* Stats */
+.stats-wrapper {
+  background: #252525;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.language-stats { display: flex; flex-direction: column; gap: 16px; }
+.stat-item { display: flex; flex-direction: column; gap: 8px; }
+.stat-header { display: flex; align-items: center; gap: 10px; }
+.stat-icon { width: 20px; height: 20px; object-fit: contain; }
+.stat-name { color: #e0e0e0; font-size: 0.95rem; font-weight: 500; flex: 1; }
+.stat-percentage { color: var(--clr-2); font-size: 0.9rem; font-weight: 600; }
+
+.stat-bar {
+  width: 100%; height: 8px; background: #1a1a1a; border-radius: 4px; overflow: hidden;
+}
+.stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--clr-1), var(--clr-2));
+  border-radius: 4px;
+  animation: fillBar 1s ease-out forwards;
+}
+
+@keyframes fillBar { from { width: 0; } to { width: var(--target-width); } }
+.no-stats { color: #888; text-align: center; font-size: 0.9rem; }
+
+@media (max-width: 1024px) {
+  .about-grid { grid-template-columns: 1fr; gap: 30px; }
+  .stats-column { order: -1; }
+}
+@media (max-width: 768px) {
+  .tech-stack-grid { gap: 8px; }
+  .tech-badge { padding: 8px 12px; }
+  .tech-badge span { font-size: 0.85rem; }
+  .tech-badge img { width: 20px; height: 20px; }
+  .stats-wrapper { padding: 15px; }
+}

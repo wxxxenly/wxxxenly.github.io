@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap");
+
+:root {
+  --bg: #1a1a1a;
+  --clr-1: #ff6f61;
+  --clr-2: #ffbd44;
+  --text: #e0e0e0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* --- ПОЛНОЭКРАННЫЕ СЕКЦИИ --- */
+.full-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  position: relative;
+}
+
+.section-content {
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+}
+
+.section-content h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 40px;
+  letter-spacing: -1px;
+}
+
+/* --- АНИМАЦИИ ПОЯВЛЕНИЯ --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: all 1s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- ПОДСКАЗКА ПРОКРУТКИ --- */
+.scroll-prompt {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounce 2s infinite;
+}
+
+.scroll-prompt span {
+  color: #666;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+  40% { transform: translateX(-50%) translateY(-15px); }
+  60% { transform: translateX(-50%) translateY(-7px); }
+}
+
+/* --- АДАПТИВНОСТЬ (Базовая) --- */
+@media (max-width: 768px) {
+  .full-screen { padding: 30px 15px; }
+}

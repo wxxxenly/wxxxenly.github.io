@@ -1,0 +1,76 @@
+// Навигационное меню и прогресс-бар скролла
+function initNavbar() {
+  const navbar = document.getElementById('navbar');
+  const navbarToggle = document.getElementById('navbarToggle');
+  const navbarMenu = document.querySelector('.navbar-menu');
+  const navbarLinks = document.querySelectorAll('.navbar-link');
+  const scrollProgress = document.getElementById('scrollProgress');
+  
+  // Показ/скрытие navbar при скролле
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll > 300) {
+      if (navbar) navbar.classList.add('visible');
+    } else {
+      if (navbar) navbar.classList.remove('visible');
+    }
+    
+    // Прогресс-бар
+    const scrollTop = window.pageYOffset;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+    
+    if (scrollProgress) {
+      scrollProgress.style.width = `${scrollPercent}%`;
+    }
+  });
+  
+  // Бургер-меню
+  if (navbarToggle && navbarMenu) {
+    navbarToggle.addEventListener('click', () => {
+      navbarToggle.classList.toggle('active');
+      navbarMenu.classList.toggle('active');
+    });
+  }
+  
+  // Плавный скролл по клику на ссылки
+  navbarLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').substring(1);
+      const targetSection = document.getElementById(targetId);
+      
+      if (targetSection) {
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+        
+        if (navbarMenu && navbarMenu.classList.contains('active')) {
+          navbarToggle.classList.remove('active');
+          navbarMenu.classList.remove('active');
+        }
+      }
+    });
+  });
+  
+  // Подсветка активной секции
+  const sections = document.querySelectorAll('section[id]');
+  
+  window.addEventListener('scroll', () => {
+    const scrollPos = window.scrollY + 100;
+    
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      const sectionId = section.getAttribute('id');
+      
+      if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+        navbarLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${sectionId}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  });
+}
