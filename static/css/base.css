@@ -1,10 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap");
 
+/* === CSS-переменные для тем === */
 :root {
-  --bg: #1a1a1a;
-  --clr-1: #ff6f61;
-  --clr-2: #ffbd44;
-  --text: #e0e0e0;
+  --bg-primary: #0d0d0d;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+  --accent-color: #ff6f61;
+  --accent-secondary: #ffbd44;
+  --card-bg: #1a1a1a;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.light-theme {
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --accent-color: #ff6f61;
+  --accent-secondary: #ffbd44;
+  --card-bg: #ffffff;
+  --border-color: rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -14,14 +30,15 @@
 }
 
 body {
-  background: var(--bg);
-  color: var(--text);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* --- ПОЛНОЭКРАННЫЕ СЕКЦИИ --- */
+/* === ПОЛНОЭКРАННЫЕ СЕКЦИИ === */
 .full-screen {
   min-height: 100vh;
   display: flex;
@@ -41,12 +58,12 @@ body {
 .section-content h2 {
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 800;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 40px;
   letter-spacing: -1px;
 }
 
-/* --- АНИМАЦИИ ПОЯВЛЕНИЯ --- */
+/* === АНИМАЦИИ ПОЯВЛЕНИЯ === */
 .reveal {
   opacity: 0;
   transform: translateY(60px);
@@ -69,7 +86,7 @@ body {
   transform: translateY(0);
 }
 
-/* --- ПОДСКАЗКА ПРОКРУТКИ --- */
+/* === ПОДСКАЗКА ПРОКРУТКИ === */
 .scroll-prompt {
   position: absolute;
   bottom: 40px;
@@ -79,7 +96,7 @@ body {
 }
 
 .scroll-prompt span {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.95rem;
   letter-spacing: 1px;
 }
@@ -90,7 +107,82 @@ body {
   60% { transform: translateX(-50%) translateY(-7px); }
 }
 
-/* --- АДАПТИВНОСТЬ (Базовая) --- */
+/* === КНОПКА НАВЕРХ === */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+  color: var(--bg-primary);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 998;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* === АДАПТИВНОСТЬ === */
 @media (max-width: 768px) {
   .full-screen { padding: 30px 15px; }
 }
+
+/* Разные анимации появления */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.zoom-in {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-up.visible,
+.fade-left.visible,
+.fade-right.visible,
+.zoom-in.visible {
+  opacity: 1;
+  transform: translate(0) scale(1);
+}
+
+/* Задержки для последовательного появления */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }

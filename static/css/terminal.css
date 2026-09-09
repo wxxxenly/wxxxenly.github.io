@@ -25,14 +25,14 @@
 .terminal-window {
   width: 90%;
   max-width: 800px;
-  max-height: 85vh; /* Ограничиваем высоту окна */
-  background: #0d0d0d;
+  max-height: 85vh;
+  background: var(--bg-secondary);
   border-radius: 12px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   transform: scale(0.9);
   transition: transform 0.3s ease;
 }
@@ -42,17 +42,17 @@
 }
 
 .terminal-header {
-  background: #1a1a1a;
+  background: var(--bg-primary);
   padding: 12px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
 }
 
 .terminal-title {
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   font-family: 'Courier New', monospace;
 }
@@ -60,7 +60,7 @@
 .terminal-close {
   background: none;
   border: none;
-  color: #ff5f56;
+  color: var(--accent-color);
   font-size: 1.5rem;
   cursor: pointer;
   width: 30px;
@@ -73,21 +73,20 @@
 }
 
 .terminal-close:hover {
-  background: rgba(255, 95, 86, 0.2);
+  background: rgba(255, 111, 97, 0.2);
 }
 
 .terminal-body {
   flex: 1;
   padding: 20px;
-  overflow: hidden; /* ← ИЗМЕНЕНО: было auto, теперь hidden */
+  overflow-y: auto;
   font-family: 'Courier New', monospace;
   font-size: 14px;
   line-height: 1.6;
-  position: relative;
 }
 
 .terminal-output {
-  color: #00ff00;
+  color: var(--accent-color);
   margin-bottom: 10px;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -97,8 +96,8 @@
   margin: 5px 0;
 }
 
-.terminal-output .prompt-line { color: #00ff00; }
-.terminal-output .info-line { color: #00bfff; }
+.terminal-output .prompt-line { color: var(--accent-color); }
+.terminal-output .info-line { color: var(--accent-secondary); }
 .terminal-output .error-line { color: #ff5f56; }
 .terminal-output .success-line { color: #27c93f; }
 
@@ -110,7 +109,7 @@
 }
 
 .terminal-prompt {
-  color: #00ff00;
+  color: var(--accent-color);
   font-family: 'Courier New', monospace;
   font-size: 14px;
 }
@@ -119,7 +118,7 @@
   flex: 1;
   background: transparent;
   border: none;
-  color: #00ff00;
+  color: var(--accent-color);
   font-family: 'Courier New', monospace;
   font-size: 14px;
   outline: none;
@@ -127,6 +126,14 @@
 
 /* Скроллбар для терминала */
 .terminal-body::-webkit-scrollbar { width: 8px; }
-.terminal-body::-webkit-scrollbar-track { background: #0d0d0d; }
+.terminal-body::-webkit-scrollbar-track { background: var(--bg-primary); }
 .terminal-body::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
 .terminal-body::-webkit-scrollbar-thumb:hover { background: #555; }
+
+/* Адаптивность терминала */
+@media (max-width: 768px) {
+  .terminal-window {
+    width: 95%;
+    max-height: 90vh;
+  }
+}

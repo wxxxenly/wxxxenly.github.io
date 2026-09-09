@@ -1,4 +1,3 @@
-// Навигационное меню и прогресс-бар скролла
 function initNavbar() {
   const navbar = document.getElementById('navbar');
   const navbarToggle = document.getElementById('navbarToggle');
@@ -6,7 +5,7 @@ function initNavbar() {
   const navbarLinks = document.querySelectorAll('.navbar-link');
   const scrollProgress = document.getElementById('scrollProgress');
   
-  // Показ/скрытие navbar при скролле
+  // Показ/скрытие navbar при скролле + прогресс-бар
   window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
     
@@ -19,11 +18,14 @@ function initNavbar() {
     // Прогресс-бар
     const scrollTop = window.pageYOffset;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercent = (scrollTop / docHeight) * 100;
+    const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
     
     if (scrollProgress) {
       scrollProgress.style.width = `${scrollPercent}%`;
     }
+    
+    // Подсветка активной секции (с учётом динамически созданных)
+    updateActiveSection();
   });
   
   // Бургер-меню
@@ -52,13 +54,12 @@ function initNavbar() {
     });
   });
   
-  // Подсветка активной секции
-  const sections = document.querySelectorAll('section[id]');
-  
-  window.addEventListener('scroll', () => {
+  // Подсветка активной секции (работает с динамически созданными секциями)
+  function updateActiveSection() {
     const scrollPos = window.scrollY + 100;
+    const allSections = document.querySelectorAll('section[id]');
     
-    sections.forEach(section => {
+    allSections.forEach(section => {
       const sectionTop = section.offsetTop;
       const sectionHeight = section.offsetHeight;
       const sectionId = section.getAttribute('id');
@@ -72,5 +73,8 @@ function initNavbar() {
         });
       }
     });
-  });
+  }
+  
+  // Вызываем сразу при загрузке
+  updateActiveSection();
 }

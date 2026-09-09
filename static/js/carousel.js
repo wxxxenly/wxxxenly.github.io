@@ -1,7 +1,6 @@
-// Карусель проектов
 function initCarousel() {
   const track = document.querySelector('.carousel-track');
-  const slides = document.querySelectorAll('.carousel-slide');
+  const slides = document.querySelectorAll('.carousel-slide:not(.hidden)');
   const indicators = document.querySelectorAll('.indicator');
   const prevBtn = document.querySelector('.prev-btn');
   const nextBtn = document.querySelector('.next-btn');

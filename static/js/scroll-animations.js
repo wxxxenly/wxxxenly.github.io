@@ -1,4 +1,3 @@
-// Анимация появления секций при скролле
 function initScrollAnimations() {
   const sectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -29,5 +28,25 @@ function initScrollAnimations() {
   
   document.querySelectorAll('.reveal').forEach(section => {
     sectionObserver.observe(section);
+  });
+}
+
+function initScrollTopButton() {
+  const scrollTopBtn = document.createElement('button');
+  scrollTopBtn.className = 'scroll-top-btn';
+  scrollTopBtn.innerHTML = '↑';
+  scrollTopBtn.setAttribute('aria-label', 'Наверх');
+  document.body.appendChild(scrollTopBtn);
+
+  window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 300) {
+      scrollTopBtn.classList.add('visible');
+    } else {
+      scrollTopBtn.classList.remove('visible');
+    }
+  });
+
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }

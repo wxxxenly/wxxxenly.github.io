@@ -1,6 +1,5 @@
-// Загрузка данных с GitHub API с кэшированием
-const GITHUB_USERNAME = 'wxxxenly'; // ЗАМЕНИ на свой
-const CACHE_DURATION = 3600000; // 1 час в миллисекундах
+const GITHUB_USERNAME = 'wxxxenly';
+const CACHE_DURATION = 3600000;
 
 const LANGUAGE_ICONS = {
   "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
@@ -25,11 +24,9 @@ const LANGUAGE_ICONS = {
   "Jupyter Notebook": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg",
 };
 
-// Универсальная функция кэширования
 function getCachedData(key) {
   const cached = localStorage.getItem(key);
   if (!cached) return null;
-  
   const { data, timestamp } = JSON.parse(cached);
   if (Date.now() - timestamp > CACHE_DURATION) {
     localStorage.removeItem(key);
@@ -39,23 +36,17 @@ function getCachedData(key) {
 }
 
 function setCachedData(key, data) {
-  localStorage.setItem(key, JSON.stringify({
-    data,
-    timestamp: Date.now()
-  }));
+  localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
 }
 
-// Загрузка данных пользователя
 async function loadUserData() {
   const cacheKey = `github_user_${GITHUB_USERNAME}`;
   const cached = getCachedData(cacheKey);
   if (cached) return cached;
-  
   try {
     const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}`);
     if (!response.ok) throw new Error('GitHub API error');
     const data = await response.json();
-    
     const userData = {
       name: data.name || GITHUB_USERNAME,
       role: "Junior Python Developer",
@@ -63,7 +54,6 @@ async function loadUserData() {
       avatar_url: data.avatar_url,
       github_url: data.html_url
     };
-    
     setCachedData(cacheKey, userData);
     return userData;
   } catch (error) {
@@ -78,23 +68,17 @@ async function loadUserData() {
   }
 }
 
-// Загрузка репозиториев
 async function loadRepos() {
   const cacheKey = `github_repos_${GITHUB_USERNAME}`;
   const cached = getCachedData(cacheKey);
   if (cached) return cached;
-  
   try {
     const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`);
     if (!response.ok) throw new Error('GitHub API error');
     const repos = await response.json();
-    
-    // Фильтруем форки и сортируем по обновлению
     const filtered = repos
       .filter(r => !r.fork && r.description)
-      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-      .slice(0, 6);
-    
+      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
     const projects = filtered.map(repo => ({
       title: repo.name,
       description: repo.description,
@@ -103,7 +87,6 @@ async function loadRepos() {
       language: repo.language || 'Unknown',
       icon_url: LANGUAGE_ICONS[repo.language] || null
     }));
-    
     setCachedData(cacheKey, projects);
     return projects;
   } catch (error) {
@@ -112,20 +95,16 @@ async function loadRepos() {
   }
 }
 
-// Загрузка статистики языков
 async function loadLanguageStats() {
   const cacheKey = `github_lang_stats_${GITHUB_USERNAME}`;
   const cached = getCachedData(cacheKey);
   if (cached) return cached;
-  
   try {
     const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`);
     if (!response.ok) throw new Error('GitHub API error');
     const repos = await response.json();
-    
     const languageCounts = {};
     let totalSize = 0;
-    
     repos.forEach(repo => {
       if (repo.fork) return;
       const lang = repo.language;
@@ -135,17 +114,14 @@ async function loadLanguageStats() {
         totalSize += size;
       }
     });
-    
     const sorted = Object.entries(languageCounts)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 5);
-    
     const stats = sorted.map(([lang, size]) => ({
       language: lang,
       percentage: Math.round((size / totalSize) * 1000) / 10,
       icon_url: LANGUAGE_ICONS[lang] || null
     }));
-    
     setCachedData(cacheKey, stats);
     return stats;
   } catch (error) {
@@ -154,7 +130,35 @@ async function loadLanguageStats() {
   }
 }
 
-// Контакты (статичные данные)
+async function loadTopLanguages() {
+  const cacheKey = `github_top_lang_${GITHUB_USERNAME}`;
+  const cached = getCachedData(cacheKey);
+  if (cached) return cached;
+  try {
+    const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`);
+    if (!response.ok) throw new Error('GitHub API error');
+    const repos = await response.json();
+    const languageCounts = {};
+    repos.forEach(repo => {
+      if (repo.fork || !repo.language) return;
+      languageCounts[repo.language] = (languageCounts[repo.language] || 0) + 1;
+    });
+    const sorted = Object.entries(languageCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6);
+    const result = sorted.map(([lang, count]) => ({
+      language: lang,
+      count,
+      icon_url: LANGUAGE_ICONS[lang] || null
+    }));
+    setCachedData(cacheKey, result);
+    return result;
+  } catch (error) {
+    console.error('Ошибка:', error);
+    return [];
+  }
+}
+
 function loadContacts() {
   return {
     telegram: "@trplee",
@@ -162,11 +166,12 @@ function loadContacts() {
   };
 }
 
-// Экспорт функций
 window.githubLoader = {
   loadUserData,
   loadRepos,
   loadLanguageStats,
+  loadTopLanguages,
   loadContacts,
-  LANGUAGE_ICONS
+  LANGUAGE_ICONS,
+  GITHUB_USERNAME
 };

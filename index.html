@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>wxxxenly</title>
+    <title>Портфолио</title>
+    <meta name="description" content="Портфолио разработчика">
+    <meta name="theme-color" content="#ff6f61">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="static/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="static/icons/icon-192.png">
+    
+    <!-- Стили -->
     <link rel="stylesheet" href="static/css/base.css">
     <link rel="stylesheet" href="static/css/hero.css">
     <link rel="stylesheet" href="static/css/about.css">
@@ -11,7 +20,19 @@
     <link rel="stylesheet" href="static/css/contacts.css">
     <link rel="stylesheet" href="static/css/navbar.css">
     <link rel="stylesheet" href="static/css/terminal.css">
+    <link rel="stylesheet" href="static/css/stats.css">
+    <link rel="stylesheet" href="static/css/timeline.css">
+    <link rel="stylesheet" href="static/css/cursor.css">
+    <link rel="stylesheet" href="static/css/arcade.css">
+    
+    <!-- Lenis для плавного скролла -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<link rel="stylesheet" href="static/css/youtube-player.css">
+<script src="static/js/youtube-player.js"></script>
 <body>
 
     <!-- Прогресс-бар скролла -->
@@ -22,13 +43,17 @@
         <div class="navbar-container">
             <a href="#hero" class="navbar-logo" id="navLogo">Portfolio</a>
             <ul class="navbar-menu">
-                <li><a href="#about" class="navbar-link">Обо мне</a></li>
-                <li><a href="#projects" class="navbar-link">Проекты</a></li>
-                <li><a href="#contacts" class="navbar-link">Контакты</a></li>
+                <li><a href="#about" class="navbar-link" data-i18n="nav.about">Обо мне</a></li>
+                <li><a href="#projects" class="navbar-link" data-i18n="nav.projects">Проекты</a></li>
+                <li><a href="#timeline" class="navbar-link" data-i18n="nav.timeline">Мой путь</a></li>
+                <li><a href="#contacts" class="navbar-link" data-i18n="nav.contacts">Контакты</a></li>
             </ul>
-            <button class="navbar-toggle" id="navbarToggle" aria-label="Открыть меню">
-                <span></span><span></span><span></span>
-            </button>
+            <div class="navbar-right">
+                <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">Light</button>
+                <button class="navbar-toggle" id="navbarToggle" aria-label="Открыть меню">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -54,10 +79,27 @@
 
     <!-- Скрипты -->
     <script src="static/js/github-loader.js"></script>
+    <script src="static/js/i18n.js"></script>
     <script src="static/js/scroll-animations.js"></script>
     <script src="static/js/carousel.js"></script>
     <script src="static/js/navbar.js"></script>
     <script src="static/js/terminal.js"></script>
+    <script src="static/js/theme-toggle.js"></script>
+    <script src="static/js/particles.js"></script>
+    <script src="static/js/project-filter.js"></script>
+    <script src="static/js/i18n-apply.js"></script>
+    <script src="static/js/typewriter.js"></script>
+    <script src="static/js/counters.js"></script>
+    <script src="static/js/timeline.js"></script>
+    <script src="static/js/cursor.js"></script>
+    <script src="static/js/smooth-scroll.js"></script>
+    <script src="static/js/konami.js"></script>
+    <script src="static/js/analytics.js"></script>
+    <script src="static/js/element-animations.js"></script>
+    <script src="static/js/session-timer.js"></script>
+    <script src="static/js/secret-room.js"></script>
+    <script src="static/js/heading-typewriter.js"></script>
+    <script src="static/js/arcade-games.js"></script>
     <script src="static/js/main.js"></script>
 </body>
 </html>
